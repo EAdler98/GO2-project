@@ -198,7 +198,7 @@ def create_images(no_pictures):
 
 
 def calculate_median_image(no_pictures):
-    image_paths=['aligned_depth_image_'+str(i)+'.png' for i in range(1,no_pictures+1)]
+    image_paths=['captured images/aligned_depth_image_'+str(i)+'.png' for i in range(1,no_pictures+1)]
     # Load the images
     images = [cv.imread(image_path, cv.IMREAD_UNCHANGED) for image_path in image_paths]
 
@@ -226,7 +226,7 @@ def get_XYZ_from_pictures_with_file(pixel_x, pixel_y):
     # save_intrinsics(intrinsics_file)
     # Load the RGB and Depth images
     # rgb_image = cv.imread(path_to_rgb)
-    depth_image = cv.imread('aligned_depth_image_m.png', cv.IMREAD_UNCHANGED)
+    depth_image = cv.imread('captured images/aligned_depth_image_m.png', cv.IMREAD_UNCHANGED)
     
     # Load intrinsics from file
     intrinsics = load_intrinsics(intrinsics_file)

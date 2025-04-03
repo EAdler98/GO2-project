@@ -90,8 +90,8 @@ def capture_depth_images(num_pictures):
             depth_images.append(depth_image)
 
             # Save the aligned images
-            rgb_filename = f"aligned_rgb_image_{i + 1}.png"
-            depth_filename = f"aligned_depth_image_{i + 1}.png"
+            rgb_filename = f"captured images/aligned_rgb_image_{i + 1}.png"
+            depth_filename = f"captured images/aligned_depth_image_{i + 1}.png"
             cv.imwrite(rgb_filename, color_image)
             cv.imwrite(depth_filename, depth_image)
 
@@ -105,7 +105,7 @@ def capture_depth_images(num_pictures):
 
 # Function to calculate median depth image
 def calculate_median_image(num_pictures):
-    image_paths = ['aligned_depth_image_' + str(i) + '.png' for i in range(2, num_pictures + 1)]
+    image_paths = ['captured images/aligned_depth_image_' + str(i) + '.png' for i in range(2, num_pictures + 1)]
     
     # Load the images
     images = [cv.imread(image_path, cv.IMREAD_UNCHANGED) for image_path in image_paths]
@@ -116,7 +116,7 @@ def calculate_median_image(num_pictures):
 
     # Convert the result to the same type as the input images
     median_image = median_image.astype(np.uint16)
-    output_path = "aligned_depth_image_m.png"
+    output_path = "captured images/aligned_depth_image_m.png"
     
     # Save the median image
     cv.imwrite(output_path, median_image)
@@ -125,7 +125,7 @@ def calculate_median_image(num_pictures):
 # Function to create a clearer depth image using median depth image
 def create_clearer_depth_image():
     # Load the median depth image
-    median_image_path = "aligned_depth_image_m.png"
+    median_image_path = "captured images/aligned_depth_image_m.png"
     depth_image = cv.imread(median_image_path, cv.IMREAD_UNCHANGED)
 
     if depth_image is None:

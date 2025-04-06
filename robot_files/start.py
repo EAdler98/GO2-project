@@ -5,21 +5,21 @@ import sys
 import matplotlib.pyplot as plt
 import numpy as np
 
-def calculate_route(robot , angle, x, y, z):
+def calculate_route(robot ,  x, y,angle):
     # x,y,angle = person.real_XYZ[0], person.real_XYZ[1], person.X_angle_degrees
+    
     xP = x
     yP = y
     D = 100
     
-    # Step 1: Calculate the PF vector
+    # Step 1: Find point F
     alpha = math.radians(angle)
     CP_length = math.sqrt(xP**2 + yP**2)  # Length of vector CP
-    PF_x = (xP * math.cos(alpha) - yP * math.sin(alpha)) * (D / CP_length)
-    PF_y = (xP * math.sin(alpha) + yP * math.cos(alpha)) * (D / CP_length)
+    PF_x = xP + (D * math.sin(alpha) )
+    PF_y = yP - (D * math.cos(alpha) )
     
-    # Step 2: Find point F
-    xF = xP - PF_x
-    yF = yP - PF_y
+    xF =PF_x
+    yF = PF_y
     print(f"F(xF, yF) = ({xF}, {yF})")
     sign = -1
     if xF < 0:
@@ -34,13 +34,13 @@ def calculate_route(robot , angle, x, y, z):
     beta1 = -1 * sign * math.acos((CF_y * 1) / (CF_length))
     
     print(f"beta1: {math.degrees(beta1)} degrees")
-    # robot.rotate(-beta1)
+    #robot.rotate(-beta1)
 
+    
     # Calculate the gamma angle between PF and (1, 0)
     
     F_length = math.sqrt(xF**2 + yF**2)
-    # robot.goMeteresAhead(F_length/100)    
-    
+    #robot.goMeteresAhead(F_length/100)    
     # Step 7: Calculate the angle beta2 between vector CF and vector FP
     FP_x = xP - xF
     FP_y = yP - yF
@@ -50,19 +50,24 @@ def calculate_route(robot , angle, x, y, z):
         X = 1
     elif X <= -1:
         X = -1
-    if angle < 0:
-        sign *= -1
-    if xF < 0:
-        sign *= -1
+    if angle<0:
+        sign*=-1
+    if xF <0:
+        sign *=-1
     beta2 = sign * math.acos(X)
+    beta2=(alpha+beta1)*(-1)
+    
     print(f"beta2: {math.degrees(beta2)} degrees")
+    #robot.rotate(-beta2)
     # robot.rotate(-beta2)
     
     # Return values for plotting:
     # robot's starting position (assumed at (0,0)),
     # approach point F, person's position P,
     # the two computed rotation angles (beta1 and beta2) and the face angle (in radians)
-    return (0, 0), (xF, yF), (xP, yP), beta1, -beta2, math.radians(angle)
+    return (0, 0), (xF, yF), (xP, yP), beta1, beta2, math.radians(angle)
+
+
 
 def plot_trajectory(robot_pos, F, P, beta1, beta2, face_angle_rad):
     """
@@ -82,8 +87,11 @@ def plot_trajectory(robot_pos, F, P, beta1, beta2, face_angle_rad):
     init_orientation = math.radians(90)
     # Orientation after first rotation (beta1)
     theta1 = init_orientation - beta1
+    #beta2= math.radians(-45)
     # Final orientation after second rotation (beta2)
     theta2 = theta1 - beta2
+    print(f"theta2: {math.degrees(theta2)} degrees")
+    
 
     arrow_length = 30  # cm (for illustration)
 
@@ -112,8 +120,8 @@ def plot_trajectory(robot_pos, F, P, beta1, beta2, face_angle_rad):
     ax.plot(P[0], P[1], 'go', markersize=8, label='Person')
     # Draw an arrow at P showing the person's facing direction (using face_angle_rad)
     ax.arrow(P[0], P[1],
-             arrow_length * math.cos(face_angle_rad),
-             arrow_length * math.sin(face_angle_rad),
+             arrow_length * math.cos(face_angle_rad-math.pi/2),
+             arrow_length * math.sin(face_angle_rad-math.pi/2),
              head_width=5, head_length=5, fc='green', ec='green', label='Person Facing')
     
     # Annotate points for clarity
@@ -129,6 +137,9 @@ def plot_trajectory(robot_pos, F, P, beta1, beta2, face_angle_rad):
     ax.set_aspect('equal', adjustable='box')
     
     plt.show()
+    # Wait for a key press to close the plot
+    print("Press any key to close the plot...")
+    plt.waitforbuttonpress()
 
 if __name__ == "__main__":
     print("Start processing!")
@@ -150,15 +161,17 @@ if __name__ == "__main__":
     # Extract the name and coordinates
     name = coordinates_list[0]
     print("name:", name)
-    x, y, z, alpha = map(float, coordinates_list[1:])
+    x, y, z,alpha = map(float, coordinates_list[1:])
+    # alpha+=180
     print("x, y, z, alpha:", x, y, z, alpha)
+    
     
     # my_robot = init_robot()
     my_robot = None
     
     # Call the route calculation function with the original parameter order:
     # (robot, angle, x, y, z)
-    robot_pos, F, P, beta1, beta2, face_angle_rad = calculate_route(my_robot, x, y, z, alpha)
+    robot_pos, F, P, beta1, beta2, face_angle_rad = calculate_route(my_robot, x, z,alpha)
     
     # Output a top-down illustration of the scene
     plot_trajectory(robot_pos, F, P, beta1, beta2, face_angle_rad)

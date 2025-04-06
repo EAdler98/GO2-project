@@ -145,7 +145,7 @@ def create_clearer_depth_image():
     colormap_depth = cv.applyColorMap(sharpened_depth, cv.COLORMAP_JET)
 
     # Save the clearer depth image
-    output_path = "clearer_depth_image_simple.png"
+    output_path = "captured images/clearer_depth_image_simple.png"
     cv.imwrite(output_path, colormap_depth)
     print(f"Clearer depth image saved as: {output_path}")
 

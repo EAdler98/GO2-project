@@ -5,7 +5,7 @@ from insightface.app import FaceAnalysis
 import json
 from numpy.linalg import norm
 from Person import *
-from RS_API import get_XYZ_from_pictures_with_file
+from get_XYZ_alpha import get_XYZ_from_pictures_with_file
 import math
 
 def train_faces(dataset_dir, embeddings_file):

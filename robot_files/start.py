@@ -25,12 +25,12 @@ def calculate_route(robot ,  x, y,angle):
     if xF < 0:
         sign *= -1
     
-    # Step 3: Calculate vector CF
+    # Step 2: Calculate vector CF
     CF_x = xF
     CF_y = yF
     CF_length = math.sqrt(CF_x**2 + CF_y**2)
     
-    # Step 4: Calculate the angle beta1 between vector CF and vector CP
+    # Step 34: Calculate the angle beta1 between vector CF and vector CP
     beta1 = -1 * sign * math.acos((CF_y * 1) / (CF_length))
     
     print(f"beta1: {math.degrees(beta1)} degrees")

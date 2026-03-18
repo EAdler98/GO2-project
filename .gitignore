@@ -1,3 +1,6 @@
 captured images/*
 DATASET/*
 *.pyc
+__pycache__/
+.vscode/
+c.py

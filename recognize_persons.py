@@ -5,7 +5,7 @@ from insightface.app import FaceAnalysis
 import json
 from numpy.linalg import norm
 from Person import *
-from RS_API import get_XYZ_from_pictures_with_file
+from get_XYZ_alpha import get_XYZ_from_pictures_with_file
 import math
 
 def train_faces(dataset_dir, embeddings_file):
@@ -156,11 +156,11 @@ def recognize_faces_from_embeddings(image_path, embeddings_file, dataset_dir):
     return results
 
 def get_persons(num_images):
-    dataset_dir = "../DATASET"
+    dataset_dir = "DATASET"
     embeddings_file = "face_embeddings.json"
     # images = []
     # for i in range(1, num_images + 1):
-    image = "aligned_rgb_image_"+str(1)+".png"
+    image = "captured images/aligned_rgb_image_"+str(1)+".png"
     # images.append(image)
     
     persons_dict = {}

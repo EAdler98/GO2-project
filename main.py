@@ -15,15 +15,15 @@ if __name__ =="__main__":
     
 
     print("start!")
-    # train_model("../DATASET")
+    # train_model("DATASET")
     NO_PICUTURE=4
     #take images and proccess them, create median depth image
     # create_images(NO_PICUTURE)
     
     #process images captured
-    
+    train_faces("DATASET", "face_embeddings.json")
     persons = get_persons(NO_PICUTURE)
-    train_faces("../DATASET", "face_embeddings.json")
+    #train_faces("DATASET", "face_embeddings.json")
     
     # print("FINISH")
     # print(len(persons))
@@ -31,7 +31,7 @@ if __name__ =="__main__":
     
     print("the person: " , person.name)
     # person = Person(name="EVYATAR", X_angle=10.955772245772206, center_XY=[871, 96], XYZ=(92.558642578125, 377.70000000000005, 149.5942941345215) )
-    train_faces("../DATASET", "face_embeddings.json")
+    train_faces("DATASET", "face_embeddings.json")
     print("deciding(persons): ", person)
     print("start go!!")
     print(person.name,person.X_angle_degrees,person.real_XYZ[0],person.real_XYZ[1],person.real_XYZ[2])
